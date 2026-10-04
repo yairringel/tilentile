@@ -1,32 +1,252 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Tile n Tile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tile n Tile - Premium Tile Solutions</title>
 
     <style>
-        html, body {
+        * {
             margin: 0;
-            width: 100%;
-            height: 100%;
-            background: white;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Top Navigation Bar */
+        nav {
+            background-color: #1a1a1a;
+            padding: 0 40px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        nav ul {
+            list-style: none;
             display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            height: 70px;
+        }
+
+        nav .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00a86b;
+            margin-right: 50px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        nav li {
+            margin: 0 25px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #00a86b;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: white;
+            padding: 100px 40px;
+            text-align: center;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
         }
 
-        img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: #ccc;
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: #00a86b;
+            color: white;
+            padding: 12px 40px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .cta-button:hover {
+            background-color: #008c56;
+        }
+
+        /* Content Section */
+        .content {
+            max-width: 1200px;
+            margin: 80px auto;
+            padding: 0 40px;
+        }
+
+        .section-title {
+            font-size: 36px;
+            margin-bottom: 40px;
+            text-align: center;
+            color: #1a1a1a;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .feature-card {
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card h3 {
+            color: #00a86b;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .feature-card p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1a1a1a;
+            color: #ccc;
+            text-align: center;
+            padding: 40px;
+            margin-top: 80px;
+        }
+
+        footer p {
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                flex-wrap: wrap;
+                height: auto;
+                padding: 15px 0;
+            }
+
+            nav .logo {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
         }
     </style>
 </head>
 
 <body>
-    <img src="image.jpg">
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="#" class="logo">🎨 Tile n Tile</a></li>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#products">Products</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <h1>Welcome to Tile n Tile</h1>
+        <p>Premium tile solutions for your home and business. Quality craftsmanship meets modern design.</p>
+        <button class="cta-button">Get Started</button>
+    </section>
+
+    <!-- Content Section -->
+    <section class="content">
+        <h2 class="section-title" id="about">Why Choose Us?</h2>
+        <div class="features">
+            <div class="feature-card">
+                <h3>✓ Premium Quality</h3>
+                <p>We source the finest tiles from trusted suppliers around the world to ensure durability and beauty.</p>
+            </div>
+            <div class="feature-card">
+                <h3>✓ Expert Installation</h3>
+                <p>Our experienced team provides professional installation services with meticulous attention to detail.</p>
+            </div>
+            <div class="feature-card">
+                <h3>✓ Competitive Pricing</h3>
+                <p>Get premium tiles at competitive prices without compromising on quality or service.</p>
+            </div>
+        </div>
+
+        <h2 class="section-title" id="services">Our Services</h2>
+        <div class="features">
+            <div class="feature-card">
+                <h3>Bathroom Tiles</h3>
+                <p>Beautiful and durable tiles perfect for bathrooms, kitchens, and wet areas.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Floor Tiles</h3>
+                <p>Stunning floor tiles in various styles, colors, and finishes for any room.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Wall Tiles</h3>
+                <p>Decorative wall tiles to transform any space into an elegant masterpiece.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <p>&copy; 2024 Tile n Tile. All rights reserved.</p>
+        <p>Email: info@tilentile.com | Phone: (555) 123-4567</p>
+    </footer>
+
 </body>
 </html>
