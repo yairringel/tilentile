@@ -88,7 +88,13 @@
             transition: stroke 0.2s ease, fill 0.2s ease;
         }
 
-        .area:hover,
+        body:not(.interactive) .area,
+        body:not(.interactive) .lang-toggle button {
+            pointer-events: none;
+            cursor: default;
+        }
+
+        .interactive .area:hover,
         .area.active {
             fill: rgba(255, 220, 0, 0.35);
             stroke: #8fd3ff;
@@ -109,9 +115,20 @@
             transition: opacity 0.2s ease;
         }
 
-        .area:hover + .area-label,
+        .interactive .area:hover + .area-label,
         .area.active + .area-label {
             opacity: 1;
+        }
+
+        .interactive-toggle {
+            position: fixed;
+            left: 8px;
+            bottom: 8px;
+            width: 14px;
+            height: 14px;
+            margin: 0;
+            cursor: pointer;
+            z-index: 10;
         }
 
         footer {
@@ -155,7 +172,12 @@
     </div>
 
     <footer data-i18n="contact">Yair 0507727047</footer>
+    <input type="checkbox" class="interactive-toggle" id="interactive-toggle" aria-label="Enable interactivity">
     <script>
+        // All interactivity is enabled only while the bottom-left checkbox is checked
+        const interactiveToggle = document.getElementById('interactive-toggle');
+        const isInteractive = () => interactiveToggle.checked;
+
         // Language toggle (English / Hebrew)
         (function () {
             const texts = {
@@ -186,7 +208,9 @@
                 try { localStorage.setItem('lang', lang); } catch (e) {}
             }
 
-            buttons.forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang)));
+            buttons.forEach(b => b.addEventListener('click', () => {
+                if (isInteractive()) setLang(b.dataset.lang);
+            }));
 
             let saved = 'en';
             try { saved = localStorage.getItem('lang') || 'en'; } catch (e) {}
@@ -206,7 +230,7 @@
             }
 
             function start() {
-                if (timer) return;
+                if (timer || !isInteractive()) return;
                 showNext();
                 timer = setInterval(showNext, 2000);
             }
@@ -222,7 +246,13 @@
                 a.addEventListener('mouseleave', start);
             });
 
-            start();
+            function syncInteractive() {
+                document.body.classList.toggle('interactive', isInteractive());
+                if (isInteractive()) start(); else stop();
+            }
+
+            interactiveToggle.addEventListener('change', syncInteractive);
+            syncInteractive();
         })();
     </script>
 </body>
