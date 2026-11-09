@@ -106,13 +106,7 @@
             transition: stroke 0.2s ease, fill 0.2s ease;
         }
 
-        body:not(.interactive) .area,
-        body:not(.interactive) .lang-toggle button {
-            pointer-events: none;
-            cursor: default;
-        }
-
-        .interactive .area:hover,
+        .area:hover,
         .area.active {
             fill: rgba(255, 220, 0, 0.35);
             stroke: #8fd3ff;
@@ -133,20 +127,9 @@
             transition: opacity 0.2s ease;
         }
 
-        .interactive .area:hover + .area-label,
+        .area:hover + .area-label,
         .area.active + .area-label {
             opacity: 1;
-        }
-
-        .interactive-toggle {
-            position: fixed;
-            left: 8px;
-            bottom: 8px;
-            width: 14px;
-            height: 14px;
-            margin: 0;
-            cursor: pointer;
-            z-index: 10;
         }
 
         /* White fade at the bottom of the picture (sits under the clickable areas) */
@@ -262,6 +245,21 @@
             transition: box-shadow 0.3s ease;
         }
 
+        /* Photo from its own image file instead of a BG.png crop */
+        img.cat-photo {
+            display: block;
+            width: 100%;
+            height: auto;
+            aspect-ratio: auto;
+            background: none;
+        }
+
+        /* Herb pots: photo column is 1.3x the normal width (424px -> 551px),
+           text column takes the rest. */
+        .category.wide {
+            grid-template-columns: 1fr min(551px, 60%);
+        }
+
         .category.highlight .cat-photo {
             box-shadow: 0 0 0 4px #8fd3ff, 0 10px 30px rgba(0, 0, 0, 0.12);
         }
@@ -310,7 +308,8 @@
 
         /* ---------- Phones ---------- */
         @media (max-width: 760px) {
-            .category {
+            .category,
+            .category.wide {
                 grid-template-columns: 1fr;
                 gap: 28px;
                 margin-bottom: 72px;
@@ -365,41 +364,41 @@
     </div>
 
     <main class="categories">
-        <section class="category" id="herb-pots">
+        <section class="category wide" id="herb-pots">
             <div class="cat-text">
                 <div class="cat-eyebrow" data-i18n="herbEyebrow">For the kitchen</div>
                 <h2 data-i18n="herbPots">Herb pots</h2>
-                <p data-i18n="herbText">Small hand-tiled planters for basil, mint and rosemary. Each one is covered in ceramic tiles and sealed for outdoor use, so your herbs stay fresh by the kitchen window or on the balcony.</p>
+                <p data-i18n="herbText">Small hand-tiled planters for basil, thyme, oregano, za'atar, mint, sage, lemon balm, white micromeria, chives, rosemary, parsley and coriander. Each one is covered in ceramic tiles and sealed for outdoor use, so your herbs stay fresh by the kitchen window or on the balcony.</p>
                 <a class="cat-link" href="tel:0507727047"><span data-i18n="askAbout">Ask about it</span><span class="arrow">&rarr;</span></a>
             </div>
-            <div class="cat-photo" style="--x: 190; --y: 80; --w: 236; --h: 295;" role="img" aria-label="Herb pots"></div>
+            <img class="cat-photo" src="tavlinim.png" alt="Herb pots">
         </section>
         <section class="category" id="woman-mosaic">
             <div class="cat-text">
-                <div class="cat-eyebrow" data-i18n="mosaicEyebrow">Made to order</div>
+                <div class="cat-eyebrow" data-i18n="mosaicEyebrow">A new technique</div>
                 <h2 data-i18n="customMosaics">Custom mosaics</h2>
-                <p data-i18n="mosaicText">Floor and wall mosaics designed around your space, from a small entrance medallion to a full patio centrepiece. We plan the design with you and set every piece by hand.</p>
+                <p data-i18n="mosaicText">Our own new technique: ceramic tiles that look like a hand-laid mosaic, with seamless joints between them. They work on flat surfaces and on uneven ones too, so your design flows across walls, floors and curves without a break.</p>
                 <a class="cat-link" href="tel:0507727047"><span data-i18n="askAbout">Ask about it</span><span class="arrow">&rarr;</span></a>
             </div>
-            <div class="cat-photo" style="--x: 510; --y: 440; --w: 360; --h: 450;" role="img" aria-label="Custom mosaic"></div>
+            <img class="cat-photo" src="mosaic.png" alt="Custom mosaic">
         </section>
         <section class="category" id="blue-plant-pot">
             <div class="cat-text">
-                <div class="cat-eyebrow" data-i18n="floorEyebrow">Upcycled tiles</div>
+                <div class="cat-eyebrow" data-i18n="floorEyebrow">Matches your floor</div>
                 <h2 data-i18n="floorTilePots">Floor tile pots</h2>
-                <p data-i18n="floorText">Planters built from classic patterned floor tiles. Strong, weatherproof and full of character: a new life for tiles that deserve to be seen.</p>
+                <p data-i18n="floorText">A planter that matches your floor exactly. Have spare tiles? We build the pot from them. No spares left? We print your floor's pattern onto new tiles with a perfect match. Either way, the pot looks like part of the room.</p>
                 <a class="cat-link" href="tel:0507727047"><span data-i18n="askAbout">Ask about it</span><span class="arrow">&rarr;</span></a>
             </div>
-            <div class="cat-photo" style="--x: 966; --y: 140; --w: 240; --h: 300;" role="img" aria-label="Floor tile pot"></div>
+            <img class="cat-photo" src="floortile.png" alt="Floor tile pot">
         </section>
         <section class="category" id="peacock-plant-pot">
             <div class="cat-text">
-                <div class="cat-eyebrow" data-i18n="designEyebrow">Your idea</div>
+                <div class="cat-eyebrow" data-i18n="designEyebrow">For designers</div>
                 <h2 data-i18n="customDesigns">Custom designs</h2>
-                <p data-i18n="designText">Have a picture in mind? A peacock, a family crest or your own pattern. We turn it into hand-painted tiles on a planter, a table or a wall.</p>
+                <p data-i18n="designText">Interior designers, architects and artists: bring us your concept and we produce the ceramic elements for your project. Custom tiles, planters and decorative pieces made to your design, colours and sizes.</p>
                 <a class="cat-link" href="tel:0507727047"><span data-i18n="askAbout">Ask about it</span><span class="arrow">&rarr;</span></a>
             </div>
-            <div class="cat-photo" style="--x: 1144; --y: 80; --w: 304; --h: 380;" role="img" aria-label="Custom design planter"></div>
+            <img class="cat-photo" src="customtile.png" alt="Custom design planter">
         </section>
     </main>
 
@@ -423,12 +422,7 @@
     </footer>
     </div>
 
-    <input type="checkbox" class="interactive-toggle" id="interactive-toggle" aria-label="Enable interactivity">
     <script>
-        // All interactivity is enabled only while the bottom-left checkbox is checked
-        const interactiveToggle = document.getElementById('interactive-toggle');
-        const isInteractive = () => interactiveToggle.checked;
-
         // Language toggle (English / Hebrew)
         (function () {
             const texts = {
@@ -439,13 +433,13 @@
                     customMosaics: 'Custom mosaics',
                     contact: 'Yair 0507727047',
                     herbEyebrow: 'For the kitchen',
-                    herbText: 'Small hand-tiled planters for basil, mint and rosemary. Each one is covered in ceramic tiles and sealed for outdoor use, so your herbs stay fresh by the kitchen window or on the balcony.',
-                    mosaicEyebrow: 'Made to order',
-                    mosaicText: 'Floor and wall mosaics designed around your space, from a small entrance medallion to a full patio centrepiece. We plan the design with you and set every piece by hand.',
-                    floorEyebrow: 'Upcycled tiles',
-                    floorText: 'Planters built from classic patterned floor tiles. Strong, weatherproof and full of character: a new life for tiles that deserve to be seen.',
-                    designEyebrow: 'Your idea',
-                    designText: 'Have a picture in mind? A peacock, a family crest or your own pattern. We turn it into hand-painted tiles on a planter, a table or a wall.',
+                    herbText: 'Small hand-tiled planters for basil, thyme, oregano, za\'atar, mint, sage, lemon balm, white micromeria, chives, rosemary, parsley and coriander. Each one is covered in ceramic tiles and sealed for outdoor use, so your herbs stay fresh by the kitchen window or on the balcony.',
+                    mosaicEyebrow: 'A new technique',
+                    mosaicText: 'Our own new technique: ceramic tiles that look like a hand-laid mosaic, with seamless joints between them. They work on flat surfaces and on uneven ones too, so your design flows across walls, floors and curves without a break.',
+                    floorEyebrow: 'Matches your floor',
+                    floorText: 'A planter that matches your floor exactly. Have spare tiles? We build the pot from them. No spares left? We print your floor\'s pattern onto new tiles with a perfect match. Either way, the pot looks like part of the room.',
+                    designEyebrow: 'For designers',
+                    designText: 'Interior designers, architects and artists: bring us your concept and we produce the ceramic elements for your project. Custom tiles, planters and decorative pieces made to your design, colours and sizes.',
                     askAbout: 'Ask about it',
                     tagline: 'Ceramic design and custom mosaics, handmade for your home and garden.',
                     footCategories: 'Categories',
@@ -458,13 +452,13 @@
                     customMosaics: 'פסיפסים בהתאמה אישית',
                     contact: 'יאיר 0507727047',
                     herbEyebrow: 'למטבח',
-                    herbText: 'עציצים קטנים מצופים באריחים בעבודת יד, לבזיליקום, נענע ורוזמרין. כל עציץ מצופה באריחי קרמיקה ואטום לשימוש בחוץ, כך שהתבלינים שלכם יישארו טריים ליד חלון המטבח או במרפסת.',
-                    mosaicEyebrow: 'בהזמנה אישית',
-                    mosaicText: 'פסיפסי רצפה וקיר שמתוכננים במיוחד עבור החלל שלכם, ממדליון קטן בכניסה ועד מרכז מרשים לפטיו. אנחנו מתכננים איתכם את העיצוב ומניחים כל חלק בעבודת יד.',
-                    floorEyebrow: 'אריחים בשימוש חוזר',
-                    floorText: 'עציצים שבנויים מאריחי רצפה מעוטרים קלאסיים. חזקים, עמידים במזג האוויר ומלאי אופי: חיים חדשים לאריחים שראוי שיראו אותם.',
-                    designEyebrow: 'הרעיון שלכם',
-                    designText: 'יש לכם תמונה בראש? טווס, סמל משפחתי או דוגמה משלכם. אנחנו הופכים אותה לאריחים מצוירים ביד על עציץ, שולחן או קיר.',
+                    herbText: 'עציצים קטנים מצופים באריחים בעבודת יד, לבזיליקום, טימין, אורגנו, זעתר, נענע, מרווה, מליסה, זוטה לבנה, עירית, רוזמרין, פטרוזיליה וכוסברה. כל עציץ מצופה באריחי קרמיקה ואטום לשימוש בחוץ, כך שהתבלינים שלכם יישארו טריים ליד חלון המטבח או במרפסת.',
+                    mosaicEyebrow: 'טכניקה חדשה',
+                    mosaicText: 'טכניקה חדשה שפיתחנו: אריחי קרמיקה שנראים כמו פסיפס בעבודת יד, עם חיבורים חלקים ללא תפרים ביניהם. מתאימים למשטחים ישרים וגם למשטחים לא אחידים, כך שהעיצוב שלכם זורם על קירות, רצפות וקימורים ללא הפרעה.',
+                    floorEyebrow: 'תואם לרצפה שלכם',
+                    floorText: 'עציץ שתואם בדיוק לרצפה שלכם. נשארו לכם אריחים? נבנה מהם את העציץ. לא נשארו? נדפיס את דוגמת הרצפה שלכם על אריחים חדשים בהתאמה מושלמת. כך או כך, העציץ נראה כחלק מהחדר.',
+                    designEyebrow: 'למעצבים',
+                    designText: 'מעצבי פנים, אדריכלים ואמנים: הביאו לנו את הקונספט שלכם ואנחנו נייצר את רכיבי הקרמיקה לפרויקט. אריחים, עציצים ופריטים דקורטיביים לפי העיצוב, הצבעים והמידות שלכם.',
                     askAbout: 'לפרטים נוספים',
                     tagline: 'עיצוב קרמיקה ופסיפסים בהתאמה אישית, בעבודת יד לבית ולגינה.',
                     footCategories: 'קטגוריות',
@@ -484,7 +478,7 @@
             }
 
             buttons.forEach(b => b.addEventListener('click', () => {
-                if (isInteractive()) setLang(b.dataset.lang);
+                setLang(b.dataset.lang);
             }));
 
             let saved = 'en';
@@ -505,7 +499,7 @@
             }
 
             function start() {
-                if (timer || !isInteractive()) return;
+                if (timer) return;
                 showNext();
                 timer = setInterval(showNext, 2000);
             }
@@ -521,19 +515,12 @@
                 a.addEventListener('mouseleave', start);
             });
 
-            function syncInteractive() {
-                document.body.classList.toggle('interactive', isInteractive());
-                if (isInteractive()) start(); else stop();
-            }
-
-            interactiveToggle.addEventListener('change', syncInteractive);
-            syncInteractive();
+            start();
         })();
 
         // Clicking an area in the picture scrolls to its category slot and briefly highlights it
         document.querySelectorAll('.scene .area').forEach(a => {
             a.addEventListener('click', () => {
-                if (!isInteractive()) return;
                 const slot = document.getElementById(a.dataset.name);
                 if (!slot) return;
                 slot.scrollIntoView({ behavior: 'smooth', block: 'start' });
