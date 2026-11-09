@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tile n Tile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Serif for headings; supports both English and Hebrew -->
+    <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500&display=swap" rel="stylesheet">
 
     <style>
         * {
@@ -16,6 +20,8 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             background: #fff;
             color: #333;
+            /* White frame around the page content */
+            padding: 0 24px;
         }
 
         header {
@@ -26,8 +32,11 @@
             padding: 20px 16px;
         }
 
+        /* Keep the top bar pinned to the top of the screen while scrolling */
         header {
-            position: relative;
+            position: sticky;
+            top: 0;
+            z-index: 20;
         }
 
         .lang-toggle {
@@ -63,6 +72,15 @@
 
         .scene {
             position: relative;
+            isolation: isolate;
+        }
+
+        /* The whole page (picture, sections, footer) is one card
+           casting a shadow onto the white frame, all the way down */
+        .page {
+            background: #fff;
+            margin-bottom: 32px;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.35);
         }
 
         .bg {
@@ -131,11 +149,184 @@
             z-index: 10;
         }
 
+        /* White fade at the bottom of the picture (sits under the clickable areas) */
+        .fade {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 30%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff);
+            pointer-events: none;
+        }
+
+        /* ---------- Category sections: alternating photo / text rows ---------- */
+        :root {
+            --teal: #1f8a7a;
+            --ink: #1d2327;
+            --serif: 'Frank Ruhl Libre', Georgia, 'Times New Roman', serif;
+        }
+
+        .categories {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 40px 24px 0;
+        }
+
+        .category {
+            scroll-margin-top: 140px; /* keep the section clear of the pinned top bar */
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 64px;
+            margin-bottom: 120px;
+        }
+
+        /* Every second row puts the photo first */
+        .category:nth-child(even) .cat-photo {
+            order: -1;
+        }
+
+        .cat-eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--teal);
+            margin-bottom: 14px;
+        }
+
+        .cat-eyebrow::before {
+            content: '';
+            width: 32px;
+            height: 1px;
+            background: var(--teal);
+        }
+
+        .cat-text h2 {
+            font-family: var(--serif);
+            font-weight: 400;
+            font-size: 40px;
+            line-height: 1.15;
+            color: var(--ink);
+            margin-bottom: 20px;
+        }
+
+        .cat-text p {
+            font-size: 14px;
+            line-height: 1.75;
+            color: #444;
+            margin-bottom: 22px;
+        }
+
+        .cat-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--teal);
+            text-decoration: none;
+        }
+
+        .cat-link .arrow {
+            transition: transform 0.2s ease;
+        }
+
+        .cat-link:hover .arrow {
+            transform: translateX(4px);
+        }
+
+        [dir="rtl"] .cat-link .arrow {
+            transform: scaleX(-1);
+        }
+
+        [dir="rtl"] .cat-link:hover .arrow {
+            transform: scaleX(-1) translateX(4px);
+        }
+
+        /* Photo = a close-up crop of BG.png.
+           --x, --y, --w, --h are the crop box in BG.png pixels (1448 x 1086). */
+        .cat-photo {
+            aspect-ratio: var(--w) / var(--h);
+            background-image: url('BG.png');
+            background-repeat: no-repeat;
+            background-size: calc(1448 / var(--w) * 100%) auto;
+            background-position:
+                calc(var(--x) / (1448 - var(--w)) * 100%)
+                calc(var(--y) / (1086 - var(--h)) * 100%);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .category.highlight .cat-photo {
+            box-shadow: 0 0 0 4px #8fd3ff, 0 10px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        /* ---------- Footer ---------- */
         footer {
-            background: #fff;
-            text-align: center;
-            padding: 24px 16px;
-            font-size: 18px;
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 32px;
+            font-size: 13px;
+        }
+
+        .foot-tagline {
+            font-weight: 600;
+            color: var(--ink);
+            line-height: 1.6;
+            max-width: 260px;
+        }
+
+        footer h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--teal);
+            margin-bottom: 14px;
+        }
+
+        footer ul {
+            list-style: none;
+        }
+
+        footer li {
+            margin-bottom: 10px;
+        }
+
+        footer a {
+            color: #444;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: var(--teal);
+        }
+
+        /* ---------- Phones ---------- */
+        @media (max-width: 760px) {
+            .category {
+                grid-template-columns: 1fr;
+                gap: 28px;
+                margin-bottom: 72px;
+            }
+
+            .category:nth-child(even) .cat-photo {
+                order: 0;
+            }
+
+            .cat-text h2 {
+                font-size: 32px;
+            }
+
+            footer {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -149,8 +340,10 @@
         </div>
     </header>
 
+    <div class="page">
     <div class="scene">
         <img class="bg" src="BG.png" alt="">
+        <div class="fade"></div>
         <svg viewBox="0 0 1448 1086">
             <polygon class="area" data-name="blue-plant-pot"
                 points="1077,198 1071,200 1059,215 1028,222 1021,234 1022,245 1015,250 1016,256 1020,257 1016,280 1027,289 1026,371 1029,375 1105,382 1131,371 1133,300 1143,299 1146,303 1153,301 1153,283 1157,279 1149,279 1146,276 1145,265 1154,260 1155,252 1148,245 1141,229 1124,224 1106,205">
@@ -171,7 +364,65 @@
         </svg>
     </div>
 
-    <footer data-i18n="contact">Yair 0507727047</footer>
+    <main class="categories">
+        <section class="category" id="herb-pots">
+            <div class="cat-text">
+                <div class="cat-eyebrow" data-i18n="herbEyebrow">For the kitchen</div>
+                <h2 data-i18n="herbPots">Herb pots</h2>
+                <p data-i18n="herbText">Small hand-tiled planters for basil, mint and rosemary. Each one is covered in ceramic tiles and sealed for outdoor use, so your herbs stay fresh by the kitchen window or on the balcony.</p>
+                <a class="cat-link" href="tel:0507727047"><span data-i18n="askAbout">Ask about it</span><span class="arrow">&rarr;</span></a>
+            </div>
+            <div class="cat-photo" style="--x: 190; --y: 80; --w: 236; --h: 295;" role="img" aria-label="Herb pots"></div>
+        </section>
+        <section class="category" id="woman-mosaic">
+            <div class="cat-text">
+                <div class="cat-eyebrow" data-i18n="mosaicEyebrow">Made to order</div>
+                <h2 data-i18n="customMosaics">Custom mosaics</h2>
+                <p data-i18n="mosaicText">Floor and wall mosaics designed around your space, from a small entrance medallion to a full patio centrepiece. We plan the design with you and set every piece by hand.</p>
+                <a class="cat-link" href="tel:0507727047"><span data-i18n="askAbout">Ask about it</span><span class="arrow">&rarr;</span></a>
+            </div>
+            <div class="cat-photo" style="--x: 510; --y: 440; --w: 360; --h: 450;" role="img" aria-label="Custom mosaic"></div>
+        </section>
+        <section class="category" id="blue-plant-pot">
+            <div class="cat-text">
+                <div class="cat-eyebrow" data-i18n="floorEyebrow">Upcycled tiles</div>
+                <h2 data-i18n="floorTilePots">Floor tile pots</h2>
+                <p data-i18n="floorText">Planters built from classic patterned floor tiles. Strong, weatherproof and full of character: a new life for tiles that deserve to be seen.</p>
+                <a class="cat-link" href="tel:0507727047"><span data-i18n="askAbout">Ask about it</span><span class="arrow">&rarr;</span></a>
+            </div>
+            <div class="cat-photo" style="--x: 966; --y: 140; --w: 240; --h: 300;" role="img" aria-label="Floor tile pot"></div>
+        </section>
+        <section class="category" id="peacock-plant-pot">
+            <div class="cat-text">
+                <div class="cat-eyebrow" data-i18n="designEyebrow">Your idea</div>
+                <h2 data-i18n="customDesigns">Custom designs</h2>
+                <p data-i18n="designText">Have a picture in mind? A peacock, a family crest or your own pattern. We turn it into hand-painted tiles on a planter, a table or a wall.</p>
+                <a class="cat-link" href="tel:0507727047"><span data-i18n="askAbout">Ask about it</span><span class="arrow">&rarr;</span></a>
+            </div>
+            <div class="cat-photo" style="--x: 1144; --y: 80; --w: 304; --h: 380;" role="img" aria-label="Custom design planter"></div>
+        </section>
+    </main>
+
+    <footer id="contact">
+        <p class="foot-tagline" data-i18n="tagline">Ceramic design and custom mosaics, handmade for your home and garden.</p>
+        <div>
+            <h3 data-i18n="footCategories">Categories</h3>
+            <ul>
+                <li><a href="#herb-pots" data-i18n="herbPots">Herb pots</a></li>
+                <li><a href="#woman-mosaic" data-i18n="customMosaics">Custom mosaics</a></li>
+                <li><a href="#blue-plant-pot" data-i18n="floorTilePots">Floor tile pots</a></li>
+                <li><a href="#peacock-plant-pot" data-i18n="customDesigns">Custom designs</a></li>
+            </ul>
+        </div>
+        <div>
+            <h3 data-i18n="footContact">Contact</h3>
+            <ul>
+                <li><a href="tel:0507727047" data-i18n="contact">Yair 0507727047</a></li>
+            </ul>
+        </div>
+    </footer>
+    </div>
+
     <input type="checkbox" class="interactive-toggle" id="interactive-toggle" aria-label="Enable interactivity">
     <script>
         // All interactivity is enabled only while the bottom-left checkbox is checked
@@ -186,14 +437,38 @@
                     customDesigns: 'Custom designs',
                     herbPots: 'Herb pots',
                     customMosaics: 'Custom mosaics',
-                    contact: 'Yair 0507727047'
+                    contact: 'Yair 0507727047',
+                    herbEyebrow: 'For the kitchen',
+                    herbText: 'Small hand-tiled planters for basil, mint and rosemary. Each one is covered in ceramic tiles and sealed for outdoor use, so your herbs stay fresh by the kitchen window or on the balcony.',
+                    mosaicEyebrow: 'Made to order',
+                    mosaicText: 'Floor and wall mosaics designed around your space, from a small entrance medallion to a full patio centrepiece. We plan the design with you and set every piece by hand.',
+                    floorEyebrow: 'Upcycled tiles',
+                    floorText: 'Planters built from classic patterned floor tiles. Strong, weatherproof and full of character: a new life for tiles that deserve to be seen.',
+                    designEyebrow: 'Your idea',
+                    designText: 'Have a picture in mind? A peacock, a family crest or your own pattern. We turn it into hand-painted tiles on a planter, a table or a wall.',
+                    askAbout: 'Ask about it',
+                    tagline: 'Ceramic design and custom mosaics, handmade for your home and garden.',
+                    footCategories: 'Categories',
+                    footContact: 'Contact'
                 },
                 he: {
                     floorTilePots: 'עציצים מאריחי רצפה',
                     customDesigns: 'עיצובים בהתאמה אישית',
                     herbPots: 'עציצי תבלינים',
                     customMosaics: 'פסיפסים בהתאמה אישית',
-                    contact: 'יאיר 0507727047'
+                    contact: 'יאיר 0507727047',
+                    herbEyebrow: 'למטבח',
+                    herbText: 'עציצים קטנים מצופים באריחים בעבודת יד, לבזיליקום, נענע ורוזמרין. כל עציץ מצופה באריחי קרמיקה ואטום לשימוש בחוץ, כך שהתבלינים שלכם יישארו טריים ליד חלון המטבח או במרפסת.',
+                    mosaicEyebrow: 'בהזמנה אישית',
+                    mosaicText: 'פסיפסי רצפה וקיר שמתוכננים במיוחד עבור החלל שלכם, ממדליון קטן בכניסה ועד מרכז מרשים לפטיו. אנחנו מתכננים איתכם את העיצוב ומניחים כל חלק בעבודת יד.',
+                    floorEyebrow: 'אריחים בשימוש חוזר',
+                    floorText: 'עציצים שבנויים מאריחי רצפה מעוטרים קלאסיים. חזקים, עמידים במזג האוויר ומלאי אופי: חיים חדשים לאריחים שראוי שיראו אותם.',
+                    designEyebrow: 'הרעיון שלכם',
+                    designText: 'יש לכם תמונה בראש? טווס, סמל משפחתי או דוגמה משלכם. אנחנו הופכים אותה לאריחים מצוירים ביד על עציץ, שולחן או קיר.',
+                    askAbout: 'לפרטים נוספים',
+                    tagline: 'עיצוב קרמיקה ופסיפסים בהתאמה אישית, בעבודת יד לבית ולגינה.',
+                    footCategories: 'קטגוריות',
+                    footContact: 'צור קשר'
                 }
             };
             const buttons = document.querySelectorAll('.lang-toggle button');
@@ -254,6 +529,18 @@
             interactiveToggle.addEventListener('change', syncInteractive);
             syncInteractive();
         })();
+
+        // Clicking an area in the picture scrolls to its category slot and briefly highlights it
+        document.querySelectorAll('.scene .area').forEach(a => {
+            a.addEventListener('click', () => {
+                if (!isInteractive()) return;
+                const slot = document.getElementById(a.dataset.name);
+                if (!slot) return;
+                slot.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                slot.classList.add('highlight');
+                setTimeout(() => slot.classList.remove('highlight'), 1500);
+            });
+        });
     </script>
 </body>
 </html>
